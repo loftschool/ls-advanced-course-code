@@ -10,6 +10,150 @@ html(lang="en")
   body
     .wrapper
       .maincontent
-        +image('content/user.jpg', 'user-pic')
-        +icon('link', 'link-class')
-        .icon-bg
+        .welcome-section 
+          section.hero
+          
+            .container.hero__container
+              header.header
+                .logo BA
+                .header__menu
+                  nav.nav
+                    ul.nav__list
+                      - var menu = ['Главная', 'Главная', 'Главная' , 'Главная' , 'Главная'];
+                      each item in menu
+                        li.nav__item
+                          a(href="").nav__link #{item}
+                .header__links
+                  ul.socials
+                    - var socials = ['insta', 'vk', 'github'];
+
+                    each item in socials
+                      li.socials__item
+                        a(href="").socials__link
+                          +icon(`${item}`, 'socials__icon')
+              .hero__content
+                .user-info
+                  .user-info__desc Личный сайт веб-разработчика
+                  .user-info__name Владимир Астаханов
+              .hero__bottom-buttons()
+                .scroll-down-button Скролл
+
+          section.about
+            .container
+              .about__left
+                .user
+                  .user__avatar
+                    img(src="", alt="").user__avatar-pic
+                  .user__data
+                    table.user__data-table
+                      - 
+                        var data = [
+                          ['проживаю', 'новосибирск'],
+                          ['проживаю', 'новосибирск'],
+                          ['проживаю', 'новосибирск'],
+                        ]
+                      each row in data
+                        tr.user__data-row
+                          td.user__data-cell #{row[0]}
+                          td.user__data-cell #{row[1]}
+
+            .about__right
+          
+              .about__welcome Привет!
+              .about__username Владимир Астаханов
+              .about__desc
+                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid molestias impedit, inventore possimus doloribus ex laudantium quibusdam similique eos, nulla aperiam obcaecati facere ab libero eius vel consequatur velit distinctio?
+                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid molestias impedit, inventore possimus doloribus ex laudantium quibusdam similique eos, nulla aperiam obcaecati facere ab libero eius vel consequatur velit distinctio?
+              .about__ps
+                p Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusamus quidem rem pariatur fugit quae vel consectetur odio dolores ab aperiam culpa, voluptatem nisi ducimus nobis atque sapiente, voluptatum incidunt labore!
+              
+        .triangles
+          svg.triangles__item.trianles__item--left(viewBox="0 0 1000 100" preserveAspectRatio="none")
+            polygon(
+              points="0,0 0,100 1000,100"
+            )
+          svg.triangles__item.triangles__item--right(viewBox="0 0 1000 100" preserveAspectRatio="none")
+            polygon(
+              points="0,100 1000,100 1000,0"
+            )
+        section.values
+          .container
+            .values__title
+              h2.section-title.values__title-text.section-title--small Чем я могу быть вам полезен
+              .values__desc
+                p Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vel sint, voluptatibus quis libero doloremque et, sit fugit fuga esse ex veniam. Excepturi labore recusandae deserunt nostrum saepe! Ea, sit officiis.
+            ul.user-skills
+              - 
+                var skills = [
+                  ['frontend', ['html', 'css', 'js']],
+                  ['workflow', ['git', 'gulp', 'webpack']],
+                ]
+              each item in skills
+                li.user-skills__item.skills-row
+                  h3.skills-row__title #{item[0]}
+                  ul.skills-row__list
+                    each skill in item[1]
+                      li.skills-row__item
+                        .skill
+                          svg(viewBox="0 0 200 200" preserveAspectRatio="none").skill__shape
+                            circle(
+                              r="80" cx="100" cy="100"
+                            ).skill__circle.skill__circle--under
+                            //- circle().skill__circle.skill__circle--above
+                            linear-gradient()
+                          .skill__title #{skill}
+        
+        .bottom-section
+          section.reviews
+            .reviews__title
+              .section-title Что обо мне говорят
+              .reviews__slider-controls
+            ul.reviews__slider
+              - for (var i = 0; i < 2; i++)
+                li.reviews__slider-item
+                  .quote
+                    .quote__text
+                    .quote__author
+                      .user.user--horizontal
+                        .user__avatar
+                          img(src="", alt="").user__avatar-pic
+                        .user__data
+                          .user__name Ковальчук Дмитрий
+                          .user__occ Основатель Loftschool
+
+          section.form
+
+
+        footer.footer
+          .container.footer__container
+            .footer__copyright
+              .copyright
+                .copyright__year 2019
+                .copyright__username Владимир Астаханов
+                .copyright__desc Личный сайт
+            .footer__data
+              .footer__menu
+                nav.nav.nav--color-white
+                  ul.nav__list
+                    each item in menu
+                      li.nav__item
+                        a(href="").nav__link #{item}
+              .footer__data-columns
+                .footer__data-col
+                  article.footer__text
+                    | Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eveniet omnis quasi ipsam voluptas? Ab corrupti perferendis commodi ullam tenetur nam deserunt asperiores! Distinctio minima ullam eveniet facere sit in ducimus?
+                  ul.footer__social.socials.socials--rounded
+                    each item in socials
+                      li.socials__item
+                        a(href="").socials__link
+                          +icon(`${item}`, 'socials__icon')
+                .footer__data-col
+                  article.footer__text
+                    p Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit sed autem quo possimus eligendi officiis veritatis! Corporis vitae iusto reprehenderit maxime autem ex. Laboriosam ad, nemo tenetur velit quisquam necessitatibus.
+                    p Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit sed autem quo possimus eligendi officiis veritatis! Corporis vitae iusto reprehenderit maxime autem ex. Laboriosam ad, nemo tenetur velit quisquam necessitatibus.
+
+
+
+              
+
+
