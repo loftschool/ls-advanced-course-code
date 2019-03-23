@@ -1,11 +1,19 @@
 .header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .header__menu {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  margin: 0 20px;
+  width: 55%;
+
+  @include tablets {
+    display: none;
+  }
+}
+
+.header__buttons {
+  @include phones {
+    display: none;
+  }
 }

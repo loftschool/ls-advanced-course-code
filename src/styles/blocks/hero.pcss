@@ -1,6 +1,6 @@
 .hero {
-  height: 100vh;
-  min-height: 650px;
+  padding-top: 54px;
+  position: relative;
 }
 
 .hero__container {
@@ -10,13 +10,22 @@
 }
 
 .hero__content {
-  flex: 1;
+  flex: .8;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  padding: 0 24%;
+
+  @include desktop {
+    padding: 0 10%;
+  }
 }
 
-.hero__bottom-buttons {
+.hero__downbutton {
+  position: absolute;
+  bottom: 4%;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: center;
 }
