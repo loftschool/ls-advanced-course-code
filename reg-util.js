@@ -21,9 +21,6 @@ const registerUser = (name, password) => {
     (err, response, body) => {
       if (err) signale.fatal(err);
       
-      console.log(response.statusCode);
-      
-
       switch (response.statusCode) {
         case 302:
           const newUserName = generateUsername(name);
