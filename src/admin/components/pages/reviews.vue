@@ -14,9 +14,13 @@
                 label.reviews__form-avatar-upload
                   input(
                     type="file"
+                    @change="appendFileAndRenderPhoto"
                   ).reviews__form-file-input
                   .reviews__form-pic
-                    .reviews__form-avatar-empty
+                    .reviews__form-avatar-empty(
+                      :class="{'filled' : this.rendedPhotoUrl.length}"
+                      :style="{'backgroundImage' : `url(${this.rendedPhotoUrl})`}"
+                    )
                   .reviews__form-addphoto Добавить фото
               .reviews__form-col
                 .reviews__form-row
@@ -54,6 +58,33 @@ export default {
   components: {
     appInput: () => import("components/input.vue"),
     appButton: () => import("components/button.vue")
+  },
+  data() {
+    return {
+      rendedPhotoUrl: "",
+      review: {
+        desc: "",
+        title: "",
+        photo: ""
+      }
+    };
+  },
+  methods: {
+    appendFileAndRenderPhoto(e) {
+      const file = e.target.files[0];
+      this.review.photo = file;
+
+      const reader = new FileReader();
+
+      try {
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.rendedPhotoUrl = reader.result;
+        };
+      } catch (error) {
+        alert("sh*t happens :(");
+      }
+    }
   }
 };
 </script>
@@ -102,11 +133,11 @@ export default {
 
   @include tablets {
     padding-right: 0;
-  }  
+  }
 
   @include phones {
     flex-direction: column;
-  }  
+  }
 }
 
 .reviews__form-addphoto {
@@ -118,7 +149,7 @@ export default {
   margin-bottom: 40px;
   @include tablets {
     flex-direction: column;
-  }  
+  }
 }
 .reviews__form-col {
   flex: 1;
@@ -135,7 +166,7 @@ export default {
     &:last-child {
       margin-bottom: 0;
     }
-  }  
+  }
 
   &:last-child {
     margin-right: 0;
@@ -163,7 +194,7 @@ export default {
   @include phones {
     margin-right: 0;
     margin-bottom: 30px;
-  }  
+  }
 }
 
 .reviews__form-avatar-empty {
@@ -172,6 +203,13 @@ export default {
   border-radius: 50%;
   background: #dee4ed;
   position: relative;
+
+  &.filled {
+    background: center center no-repeat / cover;
+    &:before {
+      display: none;
+    }
+  }
 
   &:before {
     content: "";
@@ -222,7 +260,7 @@ export default {
   justify-content: flex-end;
 
   @include tablets {
-    padding: 0 !important; 
+    padding: 0 !important;
   }
 }
 
