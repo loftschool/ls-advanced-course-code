@@ -1,87 +1,29 @@
 <template lang="pug">
   .login
     .login__content
-      form.login__form(@submit.prevent="login")
+      form.login__form
         .login__form-title Авторизация
-        button.login__form-close
         .login__row
           app-input(
             title="Логин"
             icon="user"
-            v-model="user.name"
-            :errorText="validation.firstError('user.name')"
           )
         .login__row
           app-input(
             title="Пароль"
             icon="key"
             type="password"
-            v-model="user.password"
-            :errorText="validation.firstError('user.password')"
           )
         .login__btn
           button(
             type="submit"
-            :disabled="disableSubmit"
           ).login__send-data Отправить
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import { setToken, setAuthHttpHeaderToAxios } from "@/helpers/token.js";
-import axiosInstance from "@/requests.js";
-import { Validator } from "simple-vue-validator";
-
 export default {
-  mixins: [require("simple-vue-validator").mixin],
-  validators: {
-    "user.name": value => {
-      return Validator.value(value).required("Введите имя пользователя");
-    },
-    "user.password": value => {
-      return Validator.value(value).required("Введите пароль");
-    }
-  },
   components: {
     appInput: () => import("components/input.vue")
-  },
-  data() {
-    return {
-      disableSubmit: false,
-      user: {
-        name: "ls-admin",
-        password: "ls-admin"
-        // name: "admin",
-        // password: "admin"
-      }
-    };
-  },
-  computed: {
-    ...mapGetters("user", ["userIsLogged"])
-  },
-  methods: {
-    ...mapActions("user", ["loginUser"]),
-    ...mapActions("tooltips", ["showTooltip"]),
-    async login() {
-      if ((await this.$validate()) === false) return;
-      this.disableSubmit = true;
-      try {
-        const response = await this.loginUser(this.user);
-        const token = response.data.token;
-        setToken(token);
-        setAuthHttpHeaderToAxios(axiosInstance, token);
-
-        this.$router.replace("/");
-      } catch (error) {
-        this.showTooltip({
-          type: "error",
-          text: error.message
-        });
-      } finally {
-        this.disableSubmit = false;
-        this.validation.reset();
-      }
-    }
   }
 };
 </script>

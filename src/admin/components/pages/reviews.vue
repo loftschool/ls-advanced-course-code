@@ -1,88 +1,59 @@
 <template lang="pug">
   .reviews-section
     .container
-      h1.page-title {{pageTitle}}
+      h1.page-title Блок "Отзывы"
+
     .reviews-container
-      .container.container--mobile-wide
-        .reviews__form(v-if="showAddingForm")    
-          add-new-review(
-            :title="formTitle"
-            :mode="mode"
-            @cancel="showAddingForm = false"
-          )
-        ul.reviews
-          li.reviews__item
-            add-new(
-              @click="addNewReview"
-            )
-          li.reviews__item(v-for="review in reviews")
-            reviews-item(
-              :review="review"
-              @updateWork="updateWork"
-            )
+      .container.card
+        .card__title
+          .card__title-text Текст
+        .card__content
+          .reviews__form   
+            .reviews__form-content
+              .reviews__form-userpic
+                label.reviews__form-avatar-upload
+                  input(
+                    type="file"
+                  ).reviews__form-file-input
+                  .reviews__form-pic
+                    .reviews__form-avatar-empty
+                  .reviews__form-addphoto Добавить фото
+              .reviews__form-col
+                .reviews__form-row
+                  .reviews__form-block
+                    app-input(
+                      title="Имя автора"
+                    )
+                  .reviews__form-block
+                    app-input(
+                      title="Титул автора"
+                    )
+                .reviews__form-row
+                  .reviews__form-block
+                    app-input(
+                      title="Отзыв"
+                      field-type="textarea"
+                    )
+      
+          .edit-form__buttons
+            .edit-form__buttons-item
+              app-button(
+                text="Отмена"
+                class="plain"
+              )
+            .edit-form__buttons-item
+              app-button(
+                text="Загрузить"
+              )
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
 
 export default {
-  props: {
-    pageTitle: {
-      type: String,
-      default: ""
-    }
-  },
-  data() {
-    return {
-      mode: "",
-      showAddingForm: false
-    };
-  },
   components: {
-    addNew: () => import("components/add-new.vue"),
-    addNewReview: () => import("components/reviews-add.vue"),
-    reviewsItem: () => import("components/reviews-item.vue")
-  },
-  computed: {
-    ...mapState("reviews", {
-      reviews: state => state.reviews
-    }),
-    formTitle() {
-      switch (this.mode) {
-        case "add":
-          return "Добавить отзыв";
-        case "edit":
-          return "Изменить отзыв";
-        default:
-          return "";
-          console.warn("не верное значение поля mode в reviews");
-      }
-    }
-  },
-  created() {
-    this.collectReviews();
-  },
-  methods: {
-    ...mapActions("reviews", ["fetchReviews"]),
-    ...mapActions("tooltips", ["showTooltip"]),
-    updateWork() {
-      this.mode = "edit";
-      this.showAddingForm = true;
-    },
-    addNewReview() {
-      this.mode = "add";
-      this.showAddingForm = true;
-    },
-    async collectReviews() {
-      try {
-        await this.fetchReviews();
-      } catch (error) {
-        this.showTooltip({
-          type: "error",
-          text: "Не удалось загурузить отзывы"
-        });
-      }
-    }
+    appInput: () => import("components/input.vue"),
+    appButton: () => import("components/button.vue")
   }
 };
 </script>
@@ -90,27 +61,177 @@ export default {
 <style lang="postcss" scoped>
 @import "../../../styles/mixins.pcss";
 
-.reviews {
+.card {
+  background: #fff;
+  box-shadow: 4.1px 2.9px 20px 0 rgba(0, 0, 0, 0.07);
+  padding: 0 20px 30px;
+  height: 100%;
   display: flex;
-  flex-wrap: wrap;
-  margin-left: -30px;
+  flex-direction: column;
+
+  &_plain {
+    padding: 0;
+  }
 }
 
-.reviews__item {
-  margin-left: 30px;
-  width: calc(100% / 3 - 30px);
+.card__title {
+  padding: 30px 2%;
+  border-bottom: 1px solid rgba(#1f232d, 0.15);
+  font-size: 18px;
+  font-weight: 600;
   margin-bottom: 30px;
-  @include tablets {
-    width: calc(100% / 2 - 30px);
-  }
-  @include phones {
-    width: 100%;
-    margin-bottom: 15px;
-  }
+}
+
+.card__content {
+  padding: 0 2%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.container__reviews {
+  background: #fff;
 }
 
 .reviews__form {
   margin-bottom: 30px;
+}
+
+.reviews__form-content {
+  display: flex;
+
+  @include tablets {
+    padding-right: 0;
+  }  
+
+  @include phones {
+    flex-direction: column;
+  }  
+}
+
+.reviews__form-addphoto {
+  text-align: center;
+}
+
+.reviews__form-row {
+  display: flex;
+  margin-bottom: 40px;
+  @include tablets {
+    flex-direction: column;
+  }  
+}
+.reviews__form-col {
+  flex: 1;
+}
+
+.reviews__form-block {
+  flex: 1;
+  margin-right: 30px;
+
+  @include tablets {
+    margin-right: 0;
+    margin-bottom: 40px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }  
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+.reviews__form-addphoto {
+  color: #383bcf;
+  font-weight: 600;
+}
+
+.reviews__form-pic {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 27px;
+}
+
+.reviews__form-userpic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 30px;
+
+  @include phones {
+    margin-right: 0;
+    margin-bottom: 30px;
+  }  
+}
+
+.reviews__form-avatar-empty {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: #dee4ed;
+  position: relative;
+
+  &:before {
+    content: "";
+    height: 115px;
+    width: 85px;
+    background: svg-load("filled-user.svg", fill=#fff) center center no-repeat;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &.filled {
+    background: center center no-repeat / cover;
+    &:before {
+      display: none;
+    }
+  }
+}
+
+.reviews__form-avatar-upload {
+  position: relative;
+
+  &.error {
+    .reviews__avatar-error {
+      display: block;
+    }
+  }
+}
+
+.reviews__avatar-error {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+}
+
+.reviews__form-file-input {
+  position: absolute;
+  top: 0;
+  left: -9999px;
+}
+
+.edit-form__buttons {
+  display: flex;
+  justify-content: flex-end;
+
+  @include tablets {
+    padding: 0 !important; 
+  }
+}
+
+.edit-form__buttons-item {
+  margin-right: 20px;
+
+  &:last-child {
+    margin-right: 0px;
+  }
 }
 </style>
 
