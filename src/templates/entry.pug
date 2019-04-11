@@ -1,41 +1,8 @@
-script(type="text/x-template")#input
-  .wrapper
-    input(
-      type="text"
-      :value="value"
-      @input="$emit('input', $event.target.value)"
-    )
-
-script(type="text/x-template")#comp-a
-  h1 CompA
-
-script(type="text/x-template")#comp-b
-  h1 CompB
-
-script(type="text/x-template")#test
-  div
-    pre {{model}}
-    custom-input(
-      v-model="model"
-    )
-    button(@click="change") Изменить
-    transition(name="slide" mode="in-out")
-      component(:is="compToShow")
-
-
 script(type="text/x-template")#animation
   div.root
-    animation-test
     button(@click="slide('up')") вверх
     button(@click="slide('down')") вниз
     .list-wrapper
-      transition-group(
-        tag="ul" 
-        :css="false"
-        @enter="enterCb"
-        @after-enter="afterCb"
-        @leave="leaveCb"
-      ).list
         li.item(v-for="work in filteredArray" :key="work.id")
           .item-wrapper
             img(:src="work.photo", alt="")
