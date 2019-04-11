@@ -1,8 +1,8 @@
 script(type="text/x-template")#animation
   div.root
-    button(@click="slide('up')") вверх
-    button(@click="slide('down')") вниз
+    button(@click="") вверх
+    button(@click="") вниз
     .list-wrapper
-        li.item(v-for="work in filteredArray" :key="work.id")
+        li.item
           .item-wrapper
-            img(:src="work.photo", alt="")
+            img(:src="", alt="")
