@@ -1,8 +1,15 @@
 script(type="text/x-template")#animation
   div.root
-    button(@click="") вверх
-    button(@click="") вниз
+    button(@click="slide('up')") вверх
+    button(@click="slide('down')") вниз
     .list-wrapper
-        li.item
+      transition-group(
+        tag="ul"
+        :css="false"
+        @enter="enterCb"
+        @after-enter="afterCb"
+        @leave="leaveCb"
+      ).list
+        li.item(v-for="work in splicedWorks" :key="work.id")
           .item-wrapper
-            img(:src="", alt="")
+            img(:src="work.photo", alt="").item__pic
