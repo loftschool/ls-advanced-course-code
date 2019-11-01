@@ -9,40 +9,19 @@
     .about-page__content
       .container.container--mobile-wide
         ul.skill-list
-          li.skill-list__item(
-              v-for="category in categories"
-          )
-            skills-group(
-              :category="category"
-            )
+          li.skill-list__item()
 
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
 export default {
-  components: {
-    skillsGroup: () => import("components/skills-group.vue")
-  },
-  computed: {
-    ...mapState("categories", {
-      categories: state => state.categories
-    })
-  },
-  methods: {
-    ...mapActions('categories', ["fetchCategories"]),
-  },
-  created() {
-    this.fetchCategories();
-  }
 };
 </script>
 
 <style lang="postcss" scoped>
 @import "../../../styles/mixins.pcss";
 
-
- .skill-container {
+.skill-container {
   border: 1px solid black;
   padding: 10px;
 }
