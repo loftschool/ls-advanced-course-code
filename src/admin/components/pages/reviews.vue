@@ -14,9 +14,13 @@
                 label.reviews__form-avatar-upload
                   input(
                     type="file"
+                    @change="appendFileAndRenderPhoto"
                   ).reviews__form-file-input
                   .reviews__form-pic
-                    .reviews__form-avatar-empty
+                    .reviews__form-avatar-empty(
+                      :class="{filled: renderedPhoto.length}"
+                      :style="{'backgroundImage' : `url(${renderedPhoto})`}"
+                    )
                   .reviews__form-addphoto Добавить фото
               .reviews__form-col
                 .reviews__form-row
@@ -44,6 +48,7 @@
             .edit-form__buttons-item
               app-button(
                 text="Загрузить"
+                @click="send"
               )
 </template>
 
@@ -51,6 +56,35 @@
 import { mapState, mapActions } from "vuex";
 
 export default {
+  data: () => ({
+    renderedPhoto: "",
+    review: {
+      text: "",
+      author: "",
+      photo: ""
+    }
+  }),
+  methods: {
+    ...mapActions("skills", ["addReview"]),
+    send() {
+      this.addReview(this.review);
+    },
+    appendFileAndRenderPhoto(e) {
+      const file = e.target.files[0];
+      this.review.photo = file;
+
+      const reader = new FileReader();
+
+      try {
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.renderedPhoto = reader.result;
+        };
+      } catch (error) {
+        //=(
+      }
+    }
+  },
   components: {
     appInput: () => import("components/input.vue"),
     appButton: () => import("components/button.vue")
@@ -102,11 +136,11 @@ export default {
 
   @include tablets {
     padding-right: 0;
-  }  
+  }
 
   @include phones {
     flex-direction: column;
-  }  
+  }
 }
 
 .reviews__form-addphoto {
@@ -118,7 +152,7 @@ export default {
   margin-bottom: 40px;
   @include tablets {
     flex-direction: column;
-  }  
+  }
 }
 .reviews__form-col {
   flex: 1;
@@ -135,7 +169,7 @@ export default {
     &:last-child {
       margin-bottom: 0;
     }
-  }  
+  }
 
   &:last-child {
     margin-right: 0;
@@ -163,7 +197,7 @@ export default {
   @include phones {
     margin-right: 0;
     margin-bottom: 30px;
-  }  
+  }
 }
 
 .reviews__form-avatar-empty {
@@ -222,7 +256,7 @@ export default {
   justify-content: flex-end;
 
   @include tablets {
-    padding: 0 !important; 
+    padding: 0 !important;
   }
 }
 

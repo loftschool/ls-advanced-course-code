@@ -3,28 +3,64 @@
     h2 {{category.category}}
     hr
     table
-      tr(v-for="n in 10")
-        td Скилл
-        td Процент
-        td 
-          button(type="button") удалить
-          button(type="button") изменить
+      skills-item(
+        v-for="skill in category.skills"
+        :key="skill.id"
+        :skill="skill"
+      )
     hr
-    .add-skill-wrapper
-      input(type="text" placeholder="Добавить скилл")
-      button(type="button") Добавить
+    form(
+      @submit.prevent="addNewSkill"
+      :class={blocked: formBlocked}
+    ).add-skill-wrapper
+      input(type="text" placeholder="Имя" v-model="skill.title")
+      input(type="text" placeholder="Проценты" v-model="skill.percent")
+      button(type="submit") Добавить
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
+  components: {
+    skillsItem: () => import("./skills-item")
+  },
   props: {
-    category: Object
-  }  
-}
+    category: {
+      type: Object,
+      default: () => ({}),
+      required: true
+    }
+  },
+  data() {
+    return {
+      formBlocked: false,
+      skill: {
+        title: "",
+        percent: 0,
+        category: this.category.id
+      }
+    };
+  },
+  methods: {
+    ...mapActions("skills", ["addSkill"]),
+    async addNewSkill() {
+      this.formBlocked = true;
+      try {
+        await this.addSkill(this.skill);
+        this.skill.title = "";
+        this.skill.percent = "";
+      } catch (error) {
+        // errors
+      } finally {
+        this.formBlocked = false;
+      }
+    }
+  }
+};
 </script>
 
 <style lang="postcss" scoped>
 .add-skill-wrapper.blocked {
-  opacity: .5;
+  opacity: 0.5;
   filter: grayscale(100%);
   pointer-events: none;
   user-select: none;

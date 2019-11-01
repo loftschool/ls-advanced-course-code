@@ -5,16 +5,46 @@
         h1.page-title Обо мне
         button.about-page__add-new(
         ) Добавить группу
-
+      form(@submit.prevent="addNewCategory")
+        input(type="text" v-model="title" placeholder="Имя категории") 
+        input(type="submit" value="Добавить")
     .about-page__content
       .container.container--mobile-wide
         ul.skill-list
-          li.skill-list__item()
+          li.skill-list__item(v-for="category in categories" :key="category.id")
+            skills-group(
+              :category="category"
+            )
 
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
+  components: {
+    skillsGroup: () => import("../skills-group")
+  },
+  data: () => ({
+    title: ""
+  }),
+  created() {
+    this.fetchCategories();
+  },
+  computed: {
+    ...mapState("categories", {
+      categories: state => state.categories
+    })
+  },
+  methods: {
+    ...mapActions("categories", ["addCategory", "fetchCategories"]),
+    async addNewCategory() {
+      try {
+        await this.addCategory(this.title);
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+  }
 };
 </script>
 
