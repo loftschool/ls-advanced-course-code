@@ -89,12 +89,52 @@ html(lang="ru")
                     .values__content
                       p Этот сайт я сделал в рамках обучения в Школе онлайн образования LoftSchool. Чуть позже я освежу в нём свой контент. А пока посмотрите, как тут всё классно и красиво!
                 .values__widget
-                  #skills-component
+                  .values__widget-container
+                    ul.skills
+                      each item in ["frontend", "backend"]
+                        li.skills__item
+                          .skills-row
+                            .skills-row__title #{item}
+                            ul.skills-row__list
+                              each tech in ["html", "css", "vue"]
+                                li.skills-row__item
+                                  .skill
+                                    svg(viewBox="0 0 100 100").skill__circle-shape
+                                      circle(cx="50" cy="50" r="40").skill__circle.skill__circle_under
+                                      circle(cx="50" cy="50" r="40" stroke="url(#gradient)" transform='rotate(180 50 50)').skill__circle.skill__circle_above
+                                      linearGradient(id="gradient" x1="0%" y1="0%" x2="100%" y2="0")
+                                        stop(offset="0%" stop-color="#5500f2")
+                                        stop(offset="100%" stop-color="#8f00ef")
+                                    .skill__circle-text #{tech}
           section.works
             .container.works__container
               .section-title.works__section-title Мои работы
               .works__content
-                #slider-component
+                .works-slider
+                  .works-slider__pics(:data-slide="currentIndex + 1")
+                    .works-slider__pics-content
+                      .works-slider__fullpic-container
+                        img(:src="currentWork.photo").works-slider__fullpic
+                        .works-slider__buttons
+                          a(href="#" @click.prevent="$emit('slide', 'next')").works-slider__btn.works-slider__btn_next
+                          a(href="#" @click.prevent="$emit('slide', 'prev')").works-slider__btn.works-slider__btn_prev
+                        ul.works-slider__thumbs
+                          li.works-slider__thumb-item(
+                            v-for="work in works" :key="work.id"
+                            :class="{active: currentWork.id === work.id }"
+                          )
+                            a.works-slider__thumb-link
+                              img(:src="work.photo" alt="").works-slider__thumb
+                      .works-slider__data
+                        ul.works-slider__tags
+                          li.works-slider__tag-item(v-for="tag in tagsArray")
+                            .tag {{tag}}
+                        .works-slider__title {{currentWork.title}}
+                        .works-slider__desc
+                          p {{currentWork.desc}}
+                        .works-slider__link 
+                          a(:href="currentWork.link").iconed-link Посмотреть сайт
+
         .triangles.triangles_bottom
           svg(viewBox="0 0 1000 100" preserveAspectRatio="none").triangles__shape.triangles__shape_left
             polygon(points="0,0 1000,0 1000,100")
