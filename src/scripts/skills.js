@@ -1,10 +1,14 @@
 import Vue from "vue";
+import axios from "axios";
+
+const $axios = axios.create({
+  baseURL: "http://localhost:8000"
+});
 
 const skill = {
   template: "#skill",
   props: {
-    skillName: String,
-    skillPercent: Number
+    skill: Object
   },
   methods: {
     drawColoredCircle() {
@@ -12,7 +16,7 @@ const skill = {
       const dashArray = parseInt(
         getComputedStyle(circle).getPropertyValue("stroke-dasharray")
       );
-      const percent = (dashArray / 100) * (100 - this.skillPercent);
+      const percent = (dashArray / 100) * (100 - this.skill.percent);
 
       circle.style.strokeDashoffset = percent;
     }
@@ -43,8 +47,8 @@ new Vue({
       skills: {}
     };
   },
-  created() {
-    const data = require("../data/skills.json");
+  async created() {
+    const { data } = await $axios.get("/categories/1");
     this.skills = data;
   }
 });

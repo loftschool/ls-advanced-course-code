@@ -7,6 +7,7 @@
       .container.card
         .card__title
           .card__title-text Текст
+          img(src="http://localhost:8000/uploads/avatars/1qa38ecfc12da34_origin.jpg")
         .card__content
           .reviews__form   
             .reviews__form-content
@@ -14,25 +15,33 @@
                 label.reviews__form-avatar-upload
                   input(
                     type="file"
+                    @change="handleFile"
                   ).reviews__form-file-input
                   .reviews__form-pic
-                    .reviews__form-avatar-empty
+                    .reviews__form-avatar-empty(
+                      :class="{filled: renderedPhoto.length}"
+                      :style="{backgroundImage: `url(${renderedPhoto})`}"
+                    )
                   .reviews__form-addphoto Добавить фото
               .reviews__form-col
+                
                 .reviews__form-row
                   .reviews__form-block
                     app-input(
                       title="Имя автора"
+                      v-model="review.author"
                     )
                   .reviews__form-block
                     app-input(
                       title="Титул автора"
+                      v-model="review.occ"
                     )
                 .reviews__form-row
                   .reviews__form-block
                     app-input(
                       title="Отзыв"
                       field-type="textarea"
+                      v-model="review.text"
                     )
       
           .edit-form__buttons
@@ -44,6 +53,7 @@
             .edit-form__buttons-item
               app-button(
                 text="Загрузить"
+                @click="send"
               )
 </template>
 
@@ -54,6 +64,39 @@ export default {
   components: {
     appInput: () => import("components/input.vue"),
     appButton: () => import("components/button.vue")
+  },
+  data() {
+    return {
+      renderedPhoto: "",
+      review: {
+        photo: {},
+        author: "",
+        occ: "",
+        text: ""
+      }
+    };
+  },
+  methods: {
+    ...mapActions("categories", ["addReview"]),
+    handleFile(e) {
+      const file = e.target.files[0];
+      this.review.photo = file;
+      this.renderImageFile(file);
+    },
+    send() {
+      this.addReview(this.review); 
+    },
+    renderImageFile(file) {
+      const reader = new FileReader();
+      try {
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          this.renderedPhoto = reader.result;
+        };
+      } catch (error) {
+        throw new Errow("Ошибка при чтении файла");
+      }
+    }
   }
 };
 </script>
@@ -102,11 +145,11 @@ export default {
 
   @include tablets {
     padding-right: 0;
-  }  
+  }
 
   @include phones {
     flex-direction: column;
-  }  
+  }
 }
 
 .reviews__form-addphoto {
@@ -118,7 +161,7 @@ export default {
   margin-bottom: 40px;
   @include tablets {
     flex-direction: column;
-  }  
+  }
 }
 .reviews__form-col {
   flex: 1;
@@ -135,7 +178,7 @@ export default {
     &:last-child {
       margin-bottom: 0;
     }
-  }  
+  }
 
   &:last-child {
     margin-right: 0;
@@ -163,7 +206,7 @@ export default {
   @include phones {
     margin-right: 0;
     margin-bottom: 30px;
-  }  
+  }
 }
 
 .reviews__form-avatar-empty {
@@ -186,7 +229,9 @@ export default {
   }
 
   &.filled {
-    background: center center no-repeat / cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
     &:before {
       display: none;
     }
@@ -222,7 +267,7 @@ export default {
   justify-content: flex-end;
 
   @include tablets {
-    padding: 0 !important; 
+    padding: 0 !important;
   }
 }
 

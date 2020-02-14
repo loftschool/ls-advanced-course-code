@@ -7,17 +7,21 @@
             img(src="../../images/content/user.jpg").user__pic-avatar
           .user__name 
             span Владимир Астаханов
-            a.exit-btn(@click="logout") Выйти
+            a.exit-btn(@click="logoutUser") Выйти
             
         .header__title Панель администрирования
-      a.exit-btn(@click="logout") Выйти
+      a.exit-btn(@click="logoutUser") Выйти
 </template>
 
 <script>
 import { mapActions } from "vuex";
 export default {
   methods: {
-    ...mapActions("user", ["logout"])
+    ...mapActions("user", ["logout"]),
+    logoutUser() {
+      this.logout();
+      this.$router.replace("/login");
+    }
   }
 };
 </script>
