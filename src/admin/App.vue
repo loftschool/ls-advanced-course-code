@@ -22,10 +22,7 @@ export default {
 
 
 <style lang="pcss">
-@import "normalize.css";
-@import "../styles/mixins.pcss";
-@import "../styles/layout/base.pcss";
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800");
+@import "./default.pcss";
 
 button {
   border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);

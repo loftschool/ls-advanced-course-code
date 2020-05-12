@@ -29,10 +29,6 @@ module.exports = (env, argv) => {
     test: /\.js$/,
     loader: "babel-loader",
     exclude: /node_modules/,
-    options: {
-      presets: ["@babel/preset-env"],
-      plugins: ["@babel/plugin-syntax-dynamic-import"]
-    }
   };
 
   const files = {

@@ -28,6 +28,7 @@ export default {
 
 .header {
   color: #fff;
+  background: linear-gradient(to right, #3e3e59, #454573);
 }
 
 .header__info {

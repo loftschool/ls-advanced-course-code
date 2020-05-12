@@ -5,7 +5,9 @@
         h1.page-title Обо мне
         button.about-page__add-new(
         ) Добавить группу
-
+    
+    svg()
+      use(:xlink:href="icon.url")
     .about-page__content
       .container.container--mobile-wide
         form(@submit.prevent="addNewCategory").categories-form
@@ -27,7 +29,8 @@ export default {
     skillsGroup: () => import("../skills-group")
   },
   data: () => ({
-    title: ""
+    title: "",
+    icon: {}
   }),
   computed : {
     ...mapState("categories", {
@@ -36,6 +39,9 @@ export default {
   },
   created() {
     this.fetchCategories();
+    this.icon = require("../../../images/icons/cross.svg").default;
+    console.log(this.icon);
+     
   },
   methods: {
     ...mapActions("categories", ["addCategory", "fetchCategories"]),
