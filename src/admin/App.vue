@@ -3,7 +3,7 @@
     div.root-container
       template
         header.header-container
-          app-header
+          app-header( show="true")
         section.tabs-container
           tabs
         main.content-container
