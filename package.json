@@ -8,7 +8,8 @@
     "build": "rm -rf docs && webpack --mode=production --progress",
     "count": "cloc src/",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "cypress:open": "cypress open"
   },
   "keywords": [],
   "author": "",
@@ -58,6 +59,7 @@
   ],
   "dependencies": {
     "axios": "^0.18.0",
+    "cypress": "^4.5.0",
     "normalize.css": "^8.0.1",
     "pug": "^2.0.3",
     "simple-vue-validator": "^0.16.0",

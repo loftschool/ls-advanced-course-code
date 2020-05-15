@@ -1,0 +1,8 @@
+script(type="text/x-template")#form
+  div
+    form(@submit.prevent="send")
+      input(type="text" v-model="login" placeholder="Login")#cy-login
+      button(type="submit")#cy-submit-btn Отправить
+    hr
+    ul(v-if="skills.length")#cy-list
+      li(v-for="skill in skills" :key="skill.id") {{skill.title}}
