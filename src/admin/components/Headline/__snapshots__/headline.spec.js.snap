@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`скрывает блок содержимого 1`] = `
+<div
+  class="headline-component"
+>
+  <!---->
+  <button
+    class="logout"
+    type="button"
+  >
+    Выйти
+  </button>
+</div>
+`;
+
+exports[`сохраняет структуру 1`] = `
+<div
+  class="headline-component"
+>
+  <div
+    class="content"
+  >
+    <div
+      class="desc"
+    >
+      Панель администрирования
+    </div>
+  </div>
+  <button
+    class="logout"
+    type="button"
+  >
+    Выйти
+  </button>
+</div>
+`;

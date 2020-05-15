@@ -3,7 +3,12 @@
     div.root-container
       template
         header.header-container
-          app-header( show="true")
+          headline()
+            user(
+              name="Владимир"
+              :pic="`${require('../images/content/user.jpg')}`"
+            )
+
         section.tabs-container
           tabs
         main.content-container
@@ -11,11 +16,14 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import headline from "./components/Headline";
+import user from "./components/User";
+import tabs from "./components/Tabs";
 export default {
   components: {
-    appHeader: () => import("components/header"),
-    tabs: () => import("components/tabs")
+    headline,
+    user,
+    tabs
   }
 };
 </script>
@@ -32,15 +40,6 @@ button {
 }
 .root-wrapper-container {
   height: 100%;
-}
-
-.header-container {
-  background: linear-gradient(to right, #3e3e59, #454573);
-  padding: 15px 0;
-
-  @include phones {
-    padding: 20px 0;
-  }
 }
 
 .root-container {
